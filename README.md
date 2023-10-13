@@ -1,9 +1,9 @@
 # Application to change OVH ip domain dynamically
 
-requirements:
+requirements: node, npx, npm, curl, dig, firefox or chromium
 ```
 su
-apt-get install firefox-esr
+apt-get install firefox-esr chromium
 ln -s /usr/bin/firefox-esr /usr/local/bin/firefox
 exit
 ```
@@ -20,6 +20,17 @@ run:
 ```
 /bin/bash ovh.sh
 ```
+
+Change browser: **ovh.sh**
+
+replace
+```
+firefox:headless
+```
+by
+```
+ chromium:headless
+ ```
 
 Thanks to:
 andoniserra.me
