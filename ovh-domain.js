@@ -13,7 +13,6 @@ test('ovh login', async t =>
 {
     //await t.maximizeWindow()
     await t.resizeWindow(1920, 1080)
-    //await t.resizeWindow(384, 854)
 
     const account  = await Selector('#account')
     const password = await Selector('#password')
@@ -28,16 +27,49 @@ test('ovh login', async t =>
 
     const iframe = Selector('iframe[title="app"]').nth(0)
     await t.switchToIframe(iframe)
-    const trs = Selector('td').filter(node => node.textContent.trim() === 'A').parent(0)
-    await t.wait(15 * 1000).expect(trs.exists).ok()
-
-    let count = await trs.count
-    if(count<1)
-        return false
-
-    for (let i = count -1; i >= 0; i--)
+    let trs = getTrs()
+    await t.wait(10 * 1000).expect(trs.exists).ok()
+    const count = await trs.count
+    if(count>0)
     {
-        let tr = await trs.nth(i)
+        let irtua
+        do
+        {
+            irtua = await isRecordtoUpdateAvailable()
+            if (irtua)
+            {
+                trs = getTrs()
+                const tr = await trs.nth(0)
+                await editRecord(tr)
+            }
+        }
+        while (irtua)
+        return true
+    }
+    return false  
+
+    function getTrs()
+    {
+        return Selector('td').filter(node => node.textContent.trim() === 'A').parent(0)        
+    }    
+
+    async function isRecordtoUpdateAvailable()
+    {
+        const trs = Selector('td').filter(node => node.textContent.trim() === 'A').parent(0)
+        for (let i = 0; i < count; i++)
+        {
+            const tr   = await trs.nth(i)
+            const span = await tr.find('span').nth(0)
+            let ip     = await span.textContent
+            ip         = ip.trim()
+            if(ip!==IP)
+                return true
+        }
+        return false    
+    }
+
+    async function editRecord(tr)
+    {
         const button = tr.find('td:last-child button').nth(0)
         await t.click(button)
         await t.wait(1 * 1000)
@@ -53,6 +85,6 @@ test('ovh login', async t =>
         const confirm = await Selector('#currentAction button').filter(node => node.textContent.trim() === 'Confirm').nth(1)
         await t.wait(3 * 1000).expect(confirm.exists).ok()
         await t.click(confirm)
-        await t.wait(3 * 1000)
+        await t.wait(3 * 1000)        
     }
 });
