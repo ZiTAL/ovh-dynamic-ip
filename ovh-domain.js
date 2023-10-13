@@ -32,18 +32,15 @@ test('ovh login', async t =>
     const count = await trs.count
     if(count>0)
     {
-        let irtua
-        do
+        let irtua = await isRecordtoUpdateAvailable()
+        while(irtua)
         {
+            trs = getTrs()
+            const tr = await trs.nth(0)
+            await editRecord(tr)
             irtua = await isRecordtoUpdateAvailable()
-            if (irtua)
-            {
-                trs = getTrs()
-                const tr = await trs.nth(0)
-                await editRecord(tr)
-            }
         }
-        while (irtua)
+
         return true
     }
     return false  
