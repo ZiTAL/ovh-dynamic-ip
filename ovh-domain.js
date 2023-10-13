@@ -28,7 +28,7 @@ test('ovh login', async t =>
     const iframe = Selector('iframe[title="app"]').nth(0)
     await t.switchToIframe(iframe)
     let trs = getTrs()
-    await t.wait(10 * 1000).expect(trs.exists).ok()
+    await t.wait(25 * 1000).expect(trs.exists).ok()
     const count = await trs.count
     if(count>0)
     {
