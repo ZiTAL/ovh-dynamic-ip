@@ -7,11 +7,12 @@ const command = 'curl -s ifconfig.me'
 const IP      = execSync(command, { encoding: 'utf-8' });
 
 fixture('ovh')
-    .page(`https://www.ovh.com/auth/?action=disconnect&onsuccess=https%3A%2F%2Fwww.ovh.com%2Fmanager%2F%23%2Fweb%2Fdomain%2F${config.domain}%2Fzone"`)    
+    .page(`https://www.ovh.com/auth/?action=disconnect&onsuccess=https%3A%2F%2Fwww.ovh.com%2Fmanager%2F%23%2Fweb%2Fdomain%2F${config.domain}%2Fzone`)
 
 test('ovh login', async t =>
 {
-    await t.maximizeWindow()
+    //await t.maximizeWindow()
+    await t.resizeWindow(1920, 1080)
 
     const account  = await Selector('#account')
     const password = await Selector('#password')
@@ -24,11 +25,11 @@ test('ovh login', async t =>
     const cookie_accept = Selector('button[data-navi-id="cookie-accept"]')
     await t.click(cookie_accept)
 
-    const iframe = Selector('iframe').nth(0)
+    const iframe = Selector('iframe[title="app"]').nth(0)
     await t.switchToIframe(iframe)
     const trs = Selector('td').filter(node => node.textContent.trim() === 'A').parent(0)
     await t.wait(30 * 1000).expect(trs.exists).ok()
-    
+
     let count = await trs.count
     if(count<1)
         return false
