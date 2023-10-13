@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/local/bin/npx testcafe firefox:headless ovh-domain.js
+/usr/local/bin/npx testcafe chromium:headless ovh-domain.js
