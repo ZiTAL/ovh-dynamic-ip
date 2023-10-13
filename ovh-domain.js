@@ -13,6 +13,7 @@ test('ovh login', async t =>
 {
     //await t.maximizeWindow()
     await t.resizeWindow(1920, 1080)
+    //await t.resizeWindow(384, 854)
 
     const account  = await Selector('#account')
     const password = await Selector('#password')
@@ -28,13 +29,13 @@ test('ovh login', async t =>
     const iframe = Selector('iframe[title="app"]').nth(0)
     await t.switchToIframe(iframe)
     const trs = Selector('td').filter(node => node.textContent.trim() === 'A').parent(0)
-    await t.wait(30 * 1000).expect(trs.exists).ok()
+    await t.wait(15 * 1000).expect(trs.exists).ok()
 
     let count = await trs.count
     if(count<1)
         return false
 
-    for (let i = 0; i < count; i++)
+    for (let i = count -1; i >= 0; i--)
     {
         let tr = await trs.nth(i)
         const button = tr.find('td:last-child button').nth(0)
@@ -42,16 +43,16 @@ test('ovh login', async t =>
         await t.wait(1 * 1000)
         const oami = tr.find('oui-action-menu-item').nth(0)
         await t.click(oami)
-        await t.wait(5 * 1000)
+        await t.wait(3 * 1000)
         const target = await Selector('#target')
-        await t.wait(5 * 1000).expect(target.exists).ok()
+        await t.wait(3 * 1000).expect(target.exists).ok()
         await t.typeText(target, IP, { replace: true })
         const next = await Selector('#currentAction button').filter(node => node.textContent.trim() === 'Next').nth(0)
         await t.click(next)
-        await t.wait(5 * 1000)
+        await t.wait(3 * 1000)
         const confirm = await Selector('#currentAction button').filter(node => node.textContent.trim() === 'Confirm').nth(1)
-        await t.wait(5 * 1000).expect(confirm.exists).ok()
+        await t.wait(3 * 1000).expect(confirm.exists).ok()
         await t.click(confirm)
-        await t.wait(5 * 1000)
+        await t.wait(3 * 1000)
     }
 });
