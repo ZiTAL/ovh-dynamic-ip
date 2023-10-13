@@ -1,10 +1,9 @@
-# Application to change OVH domain dynamically
+# Application to change OVH ip domain dynamically
 
 requirements:
 ```
 su
-apt-get install firefox-esr
-ln -s /usr/bin/firefox-esr /usr/local/bin/firefox
+apt-get install chromium
 exit
 ```
 
