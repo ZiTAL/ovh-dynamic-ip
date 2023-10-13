@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# https://git.andoniserra.me/dyndns-updater/
 #
 # OVH DYNHOST UPDATER
 #
@@ -9,9 +9,10 @@
 #
 # This script is valid only for one dyndns user and domain,
 # but you can add all the dynamic hosts you want to $DYNHOSTS
+#
 
-DYNHOSTS=( subdomain01.domain.com subdomain02.domain.com subdomain03.domain.com)
-IP=`curl -s ifconfig.me`
+DYNHOSTS=( subdomain01.domain.com subdomain02.domain.com )
+IP=`/usr/bin/curl -s ifconfig.me`
 
 USER='USER'
 PASSWORD='PASSWD'

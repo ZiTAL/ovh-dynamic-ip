@@ -1,8 +1,7 @@
 {
-    "devDependencies": {
-      "chromedriver": "^117.0.3",
-      "geckodriver": "^4.2.1",
-      "nightwatch": "^3.2.0"
+    "devDependencies":
+    {
+      "testcafe": "^3.3.0"
     }
-  }
+}
   
