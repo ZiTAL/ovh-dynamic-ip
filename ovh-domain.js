@@ -7,7 +7,7 @@ const command = 'curl -s ifconfig.me'
 const IP      = execSync(command, { encoding: 'utf-8' });
 
 fixture('ovh')
-    .page(`https://www.ovh.com/auth/?action=disconnect&onsuccess=https%3A%2F%2Fwww.ovh.com%2Fmanager%2F%23%2Fweb%2Fdomain%2F${config.domain}%2Fzone`)
+    .page(`https://www.ovh.com/auth/?action=disconnect&onsuccess=https%3A%2F%2Fwww.ovh.com%2Fmanager%2F%23%2Fweb%2Fdomain%2F${config.ovh.domain}%2Fzone`)
 
 test('ovh login', async t =>
 {
@@ -18,8 +18,8 @@ test('ovh login', async t =>
     const password = await Selector('#password')
     const login    = await Selector('#login-submit')
 
-    await t.typeText(account,  config.account)
-    await t.typeText(password, config.password)
+    await t.typeText(account,  config.ovh.account)
+    await t.typeText(password, config.ovh.password)
     await t.click(login)
 
     const cookie_accept = Selector('button[data-navi-id="cookie-accept"]')
