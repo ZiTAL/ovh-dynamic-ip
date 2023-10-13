@@ -9,7 +9,7 @@ const IP      = execSync(command, { encoding: 'utf-8' });
 fixture('ovh')
     .page(`https://www.ovh.com/auth/?action=disconnect&onsuccess=https%3A%2F%2Fwww.ovh.com%2Fmanager%2F%23%2Fweb%2Fdomain%2F${config.ovh.domain}%2Fzone`)
 
-test('ovh login', async t =>
+test('ovh update ip', async t =>
 {
     //await t.maximizeWindow()
     await t.resizeWindow(1920, 1080)
