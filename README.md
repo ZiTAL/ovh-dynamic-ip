@@ -3,7 +3,8 @@
 requirements:
 ```
 su
-apt-get install chromium
+apt-get install firefox-esr
+ln -s /usr/bin/firefox-esr /usr/local/bin/firefox
 exit
 ```
 
