@@ -32,5 +32,10 @@ by
  chromium:headless
  ```
 
+ crontab every hour:
+ ```
+0 * * * * /bin/bash /home/projects/ovh-dynamic-ip/ovh.sh >>/dev/null 2>> /home/projects/ovh-dynamic-ip/ovh.log
+ ```
+
 Thanks to:
 andoniserra.me
