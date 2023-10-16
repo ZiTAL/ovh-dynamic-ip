@@ -2,9 +2,15 @@ const fs           = require('fs');
 const { execSync } = require('child_process');
 const { Selector } = require('testcafe');
 
-const config  = JSON.parse(fs.readFileSync('config.json', 'utf8'));
-const command = 'curl -s ifconfig.me'
-const IP      = execSync(command, { encoding: 'utf-8' });
+const config     = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+const IP         = execSync('curl -s ifconfig.me',             { encoding: 'utf-8' }).trim();
+const CURRENT_IP = execSync(`dig +short ${config.ovh.domain}`, { encoding: 'utf-8' }).trim();
+
+if(CURRENT_IP===IP)
+{
+    console.log(`${host}: NOT updated, same IP: ${IP}`)
+    return true
+}
 
 fixture('ovh')
     .page(`https://www.ovh.com/auth/?action=disconnect&onsuccess=https%3A%2F%2Fwww.ovh.com%2Fmanager%2F%23%2Fweb%2Fdomain%2F${config.ovh.domain}%2Fzone`)
