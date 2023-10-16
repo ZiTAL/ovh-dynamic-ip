@@ -9,7 +9,7 @@ const CURRENT_IP = execSync(`dig +short ${config.ovh.domain}`, { encoding: 'utf-
 if(CURRENT_IP===IP)
 {
     console.log(`${host}: NOT updated, same IP: ${IP}`)
-    return true
+    process.exit()
 }
 
 fixture('ovh')
