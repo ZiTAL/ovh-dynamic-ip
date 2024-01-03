@@ -33,7 +33,7 @@ test('ovh update ip', async t =>
 
     const iframe = Selector('iframe[title="app"]').nth(0)
     await t.switchToIframe(iframe)
-    await t.wait(30 * 1000).expect(Selector('td').filter(node => node.textContent.trim() === 'A').exists).ok()
+    await t.wait(30 * 1000).expect(getAs().exists).ok()
 
     let trs = await getTrs()
     if(trs.length>0)
@@ -44,11 +44,16 @@ test('ovh update ip', async t =>
     }
     return false
 
+    function getAs()
+    {
+        return Selector('td').filter(node => node.textContent.trim() === 'A')
+    }
+
     async function getTrs()
     {
         let   r   = []
         let   trs = []
-        const tds = await Selector('td').filter(node => node.textContent.trim() === 'A')
+        const tds = await getAs()
         let count = await tds.count
         for (let i = 0; i < count; i++)
             trs.push(tds.nth(i).parent())
