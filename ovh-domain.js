@@ -33,42 +33,36 @@ test('ovh update ip', async t =>
 
     const iframe = Selector('iframe[title="app"]').nth(0)
     await t.switchToIframe(iframe)
-    let trs = getTrs()
-    await t.wait(25 * 1000).expect(trs.exists).ok()
-    const count = await trs.count
-    if(count>0)
-    {
-        let irtua = await isRecordtoUpdateAvailable()
-        while(irtua)
-        {
-            trs = getTrs()
-            const tr = await trs.nth(0)
-            await editRecord(tr)
-            irtua = await isRecordtoUpdateAvailable()
-        }
+    await t.wait(30 * 1000).expect(Selector('td').filter(node => node.textContent.trim() === 'A').exists).ok()
 
+    let trs = await getTrs()
+    if(trs.length>0)
+    {
+        for(let i=0; i<trs.length; i++)
+            await  editRecord(trs[i])
         return true
     }
-    return false  
+    return false
 
-    function getTrs()
+    async function getTrs()
     {
-        return Selector('td').filter(node => node.textContent.trim() === 'A').parent(0)        
-    }    
+        let   r   = []
+        let   trs = []
+        const tds = await Selector('td').filter(node => node.textContent.trim() === 'A')
+        let count = await tds.count
+        for (let i = 0; i < count; i++)
+            trs.push(tds.nth(i).parent())
 
-    async function isRecordtoUpdateAvailable()
-    {
-        const trs = Selector('td').filter(node => node.textContent.trim() === 'A').parent(0)
         for (let i = 0; i < count; i++)
         {
-            const tr   = await trs.nth(i)
+            const tr   = trs[i]
             const span = await tr.find('span').nth(0)
             let ip     = await span.textContent
             ip         = ip.trim()
             if(ip!==IP)
-                return true
+                r.push(tr)
         }
-        return false    
+        return r
     }
 
     async function editRecord(tr)
